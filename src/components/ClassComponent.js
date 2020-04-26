@@ -10,8 +10,8 @@ class ClassComponent extends Component {
             id: 1,
             idFromButton: 0,
             idPost: {},
-            sayi: 0,
-            saniye: 0       
+            count: 0,
+            second: 0       
         }
     }
 
@@ -21,20 +21,20 @@ class ClassComponent extends Component {
             .then( response => this.setState({ posts: response.data}))
             .catch( error => console.log(error))
         
-        this.interval = setInterval( () => { this.setState({saniye: this.state.saniye + 1})}, 1000)
+        this.interval = setInterval( () => { this.setState({second: this.state.second + 1})}, 1000)
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.idFromButton !== this.state.idFromButton) {
-            console.log('componentDidUpdate tetiklendi - Class')
+            console.log('componentDidUpdate triggered - Class')
             axios
                 .get("https://jsonplaceholder.typicode.com/posts/" + this.state.idFromButton)
                 .then( response => this.setState({ idPost: response.data}))
                 .catch( error => console.log(error))
         }
-        if (prevState.sayi !== this.state.sayi) {
-            console.log('Butona tiklandi - Class')
-            document.title = `Buton ${this.state.sayi} kere tiklandi`
+        if (prevState.count !== this.state.count) {
+            console.log('Button clicked - Class')
+            document.title = `Button ${this.state.count} times clicked`
         }
     }
 
@@ -46,13 +46,13 @@ class ClassComponent extends Component {
     render() {
         return (
             <div>
-                Class - {this.state.saniye}
+                Class Second - {this.state.second}
                 <hr/>
-                <button onClick = { () => this.setState({ sayi: this.state.sayi + 1})}>{this.state.sayi} kere tiklandi</button>
+                <button onClick = { () => this.setState({ count: this.state.count + 1})}>{this.state.count} times clicked</button>
                 <hr/>
                 <h3>Posts - ClassComponent</h3>
                 Post Id : <input type="text" onChange = { e => this.setState({ id: e.target.value})}/>
-                <button onClick = {() => this.setState({idFromButton: this.state.id})}>Post Al</button>
+                <button onClick = {() => this.setState({idFromButton: this.state.id})}>Get Post</button>
                 { this.state.idFromButton !== 0 && <p>{this.state.idFromButton}{'. '}{this.state.idPost.title} </p> }
                 <hr/>
                 <ol>
